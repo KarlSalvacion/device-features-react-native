@@ -25,37 +25,61 @@ const stylesMapScreen = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').height,
     },
-    customCallout: {
-        backgroundColor: 'transparent',
-        borderWidth: 0,
-    },
     calloutContainer: {
-        width: 200,
-        backgroundColor: 'white',
-        borderRadius: 8,
         padding: 10,
-        elevation: 5,
+        backgroundColor: "#fff",
+        borderRadius: 5,
+        width: 200,
+    },
+    calloutCaption: {
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#333",
+        marginBottom: 5,
+    },
+    calloutDate: {
+        fontSize: 14,
+        color: "#555",
+    },
+    markerContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      
+      thumbnailMarker: {
+        width: 70,
+        height: 70,
+        borderRadius: 12,
+        overflow: 'hidden',
+        borderWidth: 3,
+        borderColor: '#ffffff',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    },
-    calloutImage: {
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 4,
+        backgroundColor: '#ddd',
+      },
+      
+      thumbnailImage: {
         width: '100%',
-        height: 120,
-        borderRadius: 8,
-        marginBottom: 8,
-    },
-    calloutTitle: {
-        fontWeight: '600',
-        fontSize: 14,
-        marginBottom: 4,
-    },
-    calloutAddress: {
-        fontSize: 12,
-        color: '#666',
-        fontStyle: 'italic',
-    }
+        height: '100%',
+        resizeMode: 'cover',
+      },
+      
+      arrowDown: {
+        width: 0,
+        height: 0,
+        borderLeftWidth: 10,
+        borderRightWidth: 10,
+        borderTopWidth: 12,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: 'rgb(255, 255, 255)', 
+        marginTop: -1, 
+      },
+      
+      
 });
 
 export default stylesMapScreen;

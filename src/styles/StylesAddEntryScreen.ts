@@ -6,18 +6,51 @@ const stylesAddEntryScreen = StyleSheet.create({
     },
 
     headerContainer: {
-        backgroundColor: 'red',
-        height: 60,
+        backgroundColor: '#0095f6',
+        height: 50,
         width: '100%',
-        paddingHorizontal: 20,
-        justifyContent: 'center',
+        paddingHorizontal: 15,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
     },
     headerTitle: {
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: '600',
+        flex: 1,
+        textAlign: 'left',
+    },
+    clearButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 5,
+    },
+    clearButtonText: {
+        fontSize: 14,
+        marginLeft: 4,
+    },
+    captionInputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'relative',
+    },
+    clearCaptionButton: {
+        position: 'absolute',
+        right: 10,
+        padding: 5,
+    },
+    captionInput: {
+        flex: 1,
+        height: 40,
+        borderWidth: 1,
+        
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginTop: 5,
+        fontSize: 14,
     },
     contentContainer: {
-        backgroundColor: 'rgb(255, 255, 255)',
+        
         paddingVertical: 10,
     },
 
@@ -58,22 +91,18 @@ const stylesAddEntryScreen = StyleSheet.create({
     },
 
     captureButton: {
-        marginLeft: 16,
-        gap: 10,
-        width: 150,
-        height: 50,
-        justifyContent: "center",
-        alignItems: "center",
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10,
+        width: '100%',
+        height: 50,
         borderWidth: 1,
-        borderColor: "rgb(0, 0, 0)",
         borderRadius: 10,
-        backgroundColor: "rgb(255, 255, 255)",
     },
     cameraButtonText: {
         fontSize: 16,
         fontWeight: '600',
-        color: 'rgb(113, 113, 113)',
     },
 
     captureContainer: {
@@ -82,7 +111,7 @@ const stylesAddEntryScreen = StyleSheet.create({
     },
 
     imagePreviewContainer:{
-        backgroundColor: "rgb(255, 255, 255)",
+
     },
 
     imagePreviewHeader: {
@@ -93,9 +122,15 @@ const stylesAddEntryScreen = StyleSheet.create({
         marginBottom: 10,
     },
 
+    captionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+
     captionContainer: {
         height: "auto",
-        backgroundColor: 'rgba(255, 255, 255)',
         paddingHorizontal: 16,
         paddingVertical: 10,
         gap: 10,
@@ -107,19 +142,7 @@ const stylesAddEntryScreen = StyleSheet.create({
         fontWeight: '600',
     },
 
-    captionInput: {
-        paddingHorizontal: 16,
-        fontSize: 16,
-        borderRadius: 12,
-        borderWidth: 1,
-        height: 70,
-        width: '100%',
-        backgroundColor: 'transparent',
-        marginBottom: 5,
-    },
-    
     locationContainer: {
-        backgroundColor: 'rgb(255, 255, 255)',
         paddingHorizontal: 16,
         paddingVertical: 10,
         gap: 10,
@@ -141,10 +164,10 @@ const stylesAddEntryScreen = StyleSheet.create({
     locationButton: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgb(245, 245, 245)',
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 8,
+        borderWidth: 1,
         gap: 5,
     },
     
@@ -172,12 +195,11 @@ const stylesAddEntryScreen = StyleSheet.create({
     },
     
     footer: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        borderTopWidth: 1,
-        borderTopColor: '#dbdbdb',
+        gap: 10,
     },
     imageCount: {
         fontSize: 14,
@@ -185,12 +207,14 @@ const stylesAddEntryScreen = StyleSheet.create({
         color: '#262626',
     },
     nextButton: {
-        backgroundColor: '#0095f6',
         paddingHorizontal: 40,
         paddingVertical: 12,
         borderRadius: 10,
-        width: '80%',
+        borderWidth: 1,
+        height: 50,
+        justifyContent: 'center',
         alignItems: 'center',
+        width: '100%',
     },
     nextButtonText: {
         color: 'white',

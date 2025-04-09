@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, Pressable } from "react-native";
+import React, { useRef, useEffect } from "react";
+import { View, Text, Pressable, Animated } from "react-native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from "../context/ThemeContext";
@@ -10,8 +10,6 @@ import PreviewScreen from '../screens/PreviewScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RootTabParamList } from './NavigationType';
 import stylesNavigation from "../styles/StylesNavigation";
-import { LinearGradient } from 'expo-linear-gradient';
-import { CommonActions } from '@react-navigation/native';
 
 export type AddEntryStackParamList = {
   Camera: undefined;
@@ -23,6 +21,7 @@ export type AddEntryStackParamList = {
       longitude: number;
       address: string;
     } | null;
+    datePosted?: string;
   };
 };
 
@@ -39,7 +38,7 @@ const AddEntryStack = () => {
                     backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff',
                 },
                 headerTintColor: isDarkMode ? '#ffffff' : '#000000',
-                headerTitleAlign: 'center'
+                headerTitleAlign: 'center',
             }}
         >
             <Stack.Screen 
@@ -60,78 +59,119 @@ const AddEntryStack = () => {
     );
 };
 
-const NavigationControl = () => {
+const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     const { isDarkMode } = useTheme();
+    const indicatorAnim = useRef(new Animated.Value(state.index * (100 / 3))).current;
+
+    useEffect(() => {
+        animateIndicator(state.index);
+    }, [state.index]);
+
+    const animateIndicator = (index: number) => {
+        Animated.spring(indicatorAnim, {
+            toValue: index * (430 / 3),
+            useNativeDriver: true,
+            tension: 50,
+            friction: 8,
+        }).start();
+    };
 
     return (
-        <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarStyle: stylesNavigation.navigationContainer,
-                tabBarButton: ({ accessibilityState, onPress }) => {
-                    const focused = accessibilityState?.selected;
+        <View style={stylesNavigation.navigationContainer}>
+            <Animated.View 
+                style={[
+                    stylesNavigation.indicator,
+                    {backgroundColor: isDarkMode ? 
+                        'rgb(223, 223, 223)' : 
+                        'rgb(29, 29, 29)'},
+                    {
+                        transform: [{ translateX: indicatorAnim }],
+                    },
+                ]}
+            />
+            <View style={{ flexDirection: 'row' }}>
+                {state.routes.map((route: any, index: number) => {
+                    const { options } = descriptors[route.key];
+                    const isFocused = state.index === index;
+
+                    const onPress = () => {
+                        const event = navigation.emit({
+                            type: 'tabPress',
+                            target: route.key,
+                            canPreventDefault: true,
+                        });
+
+                        if (!isFocused && !event.defaultPrevented) {
+                            navigation.navigate(route.name);
+                        }
+                    };
 
                     return (
                         <Pressable
+                            key={route.key}
                             onPress={onPress}
-                            style={({ pressed }) => [
-                                stylesNavigation.tabBarButton,
-                                pressed && stylesNavigation.tabBarButtonPressed,
-                            ]}
+                            style={stylesNavigation.tabBarButton}
                         >
-                            {({ pressed }) => (
-                                <>
-                                    {pressed && (
-                                        <LinearGradient
-                                            colors={['#4c669f', '#3b5998', '#192f6a']}
-                                            start={{ x: 0, y: 0 }}
-                                            end={{ x: 1, y: 1 }}
-                                            style={stylesNavigation.tabBarContainer}
-                                        >
-                                        </LinearGradient>
-                                    )}
-
-                                    <View style={stylesNavigation.tabBarContainer}>
-                                        {route.name === "Home" ? (
-                                            <Ionicons
-                                                name={focused ? "home" : "home-outline"}
-                                                style={[
-                                                    stylesNavigation.tabBarIcon,
-                                                    isDarkMode && stylesNavigation.activeTabBarIcon,
-                                                    focused && stylesNavigation.activeTabBarIcon
-                                                ]}
-                                            />
-                                        ) : route.name === "Add Entry" ? (
-                                            <Ionicons
-                                                name={focused ? "camera" : "camera-outline"}
-                                                style={[
-                                                    stylesNavigation.tabBarIcon,
-                                                    focused && stylesNavigation.activeTabBarIcon
-                                                ]}
-                                            />
-                                        ) : (
-                                            <Ionicons
-                                                name={focused ? "map" : "map-outline"}
-                                                style={[
-                                                    stylesNavigation.tabBarIcon,
-                                                    focused && stylesNavigation.activeTabBarIcon
-                                                ]}
-                                            />
-                                        )}
-
-                                        <Text style={stylesNavigation.tabBarText}>
-                                            {route.name}
-                                        </Text>
-                                    </View>
-                                </>
-                            )}
+                            <View style={stylesNavigation.tabBarContainer}>
+                                {route.name === "Home" ? (
+                                    <Ionicons
+                                        name={isFocused ? "home" : "home-outline"}
+                                        style={[
+                                            stylesNavigation.tabBarIcon,
+                                            {color: isDarkMode ? 
+                                                'rgb(171, 171, 171)' : 
+                                                'rgb(29, 29, 29)'},
+                                            isFocused && {color: isDarkMode? 
+                                                'rgb(223, 223, 223)' :
+                                                'rgb(29, 29, 29)'},
+                                        ]}
+                                    />
+                                ) : route.name === "Add Entry" ? (
+                                    <Ionicons
+                                        name={isFocused ? "camera" : "camera-outline"}
+                                        style={[
+                                            stylesNavigation.tabBarIcon,
+                                            {color: isDarkMode ? 
+                                                'rgb(171, 171, 171)' : 
+                                                'rgb(29, 29, 29)'},
+                                            isFocused && {color: isDarkMode? 
+                                                'rgb(223, 223, 223)' :
+                                                'rgb(29, 29, 29)'},
+                                        ]}
+                                    />
+                                ) : (
+                                    <Ionicons
+                                        name={isFocused ? "map" : "map-outline"}
+                                        style={[
+                                            stylesNavigation.tabBarIcon,
+                                            {color: isDarkMode ? 
+                                                'rgb(171, 171, 171)' : 
+                                                'rgb(29, 29, 29)'},
+                                            isFocused && {color: isDarkMode? 
+                                                'rgb(223, 223, 223)' :
+                                                'rgb(29, 29, 29)'},
+                                        ]}
+                                    />
+                                )}
+                            </View>
                         </Pressable>
                     );
-                },
+                })}
+            </View>
+        </View>
+    );
+};
+
+const NavigationControl = () => {
+    return (
+        <Tab.Navigator
+            tabBar={(props) => <CustomTabBar {...props} />}
+            screenOptions={{
                 headerShown: false,
-            })}
+            }}
         >
             <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen  name="Add Entry" component={AddEntryStack}/>
+            <Tab.Screen name="Add Entry" component={AddEntryStack} />
             <Tab.Screen name="Map" component={MapScreen} />
         </Tab.Navigator>
     );

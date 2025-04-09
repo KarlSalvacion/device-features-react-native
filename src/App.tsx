@@ -4,7 +4,6 @@ import { SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { CameraProvider } from './context/CameraContext';
-import { NotificationsProvider } from './context/NotificationsContext';
 import NavigationControl from './navigation/NavigationControl';
 import stylesGlobal from './styles/StylesGlobal';
 
@@ -12,7 +11,12 @@ const AppContent = () => {
   const { isDarkMode } = useTheme();
 
   return (
-    <SafeAreaView style={[stylesGlobal.container, { backgroundColor: isDarkMode ? '#1a1a1a' : '#ffffff' }]}>
+    <SafeAreaView style={[
+      stylesGlobal.container, 
+      { backgroundColor: isDarkMode ? 
+        'rgb(29, 29, 29)' : 
+        'rgb(253, 253, 253)' 
+        }]}>
       <StatusBar style={isDarkMode ? "light" : "dark"} />
       <NavigationContainer>
         <NavigationControl />
@@ -24,11 +28,9 @@ const AppContent = () => {
 const App = () => {
   return (
     <ThemeProvider>
-      <NotificationsProvider>
-        <CameraProvider>
-          <AppContent />
-        </CameraProvider>
-      </NotificationsProvider>
+      <CameraProvider>
+        <AppContent />
+      </CameraProvider>
     </ThemeProvider>
   );
 };
