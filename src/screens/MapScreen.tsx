@@ -1,21 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text,  Alert, ActivityIndicator, Image } from "react-native";
+import { View, Text, Alert, ActivityIndicator, Image } from "react-native";
 import { useTheme } from "../context/ThemeContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker, Callout } from "react-native-maps";
-import stylesMapScreen from "../styles/StylesMapScreen";
-
-interface TravelEntry {
-  id: string;
-  caption: string;
-  images: string[];
-  location?: {
-    latitude: number;
-    longitude: number;
-    address: string;
-  } | null;
-}
+import stylesMapScreen from "../styles/screens/StylesMapScreen";
+import { TravelEntry, formatPostDate } from "../types/TravelEntry";
+import { loadTravelEntries } from "../utility/StorageUtility";
+import { useNavigation } from "@react-navigation/native";
 
 const MapScreen = () => {
     const { isDarkMode } = useTheme();
@@ -23,47 +14,64 @@ const MapScreen = () => {
     const [loading, setLoading] = useState(true);
     const [mapError, setMapError] = useState<string | null>(null);
     const mapRef = useRef<MapView | null>(null);
+    const [currentTime, setCurrentTime] = useState<Date>(new Date());
     const [initialRegion, setInitialRegion] = useState({
         latitude: 37.78825,
         longitude: -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     });
+    const navigation = useNavigation();
 
     useEffect(() => {
-        loadEntries();
-    }, []);
+        loadEntriesForMap();
+        
+        const unsubscribe = navigation.addListener('focus', () => {
+            loadEntriesForMap();
+        });
+        
+        const timeInterval = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 60000);
+        
+        return () => {
+            unsubscribe();
+            clearInterval(timeInterval);
+        };
+    }, [navigation]);
 
-    const loadEntries = async () => {
+    const loadEntriesForMap = async () => {
         try {
             setLoading(true);
-            const storedEntries = await AsyncStorage.getItem("travelEntries");
-            if (storedEntries) {
-                const parsedEntries: TravelEntry[] = JSON.parse(storedEntries);
-                setEntries(parsedEntries);
-                
-                // Set initial region to the first entry with location or default
-                const entriesWithLocation = parsedEntries.filter(entry => entry.location);
-                if (entriesWithLocation.length > 0) {
-                    const firstEntry = entriesWithLocation[0];
-                    setInitialRegion({
-                        latitude: firstEntry.location!.latitude,
-                        longitude: firstEntry.location!.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    });
-                }
+            const loadedEntries = await loadTravelEntries();
+            setEntries(loadedEntries);
+            
+            const entriesWithLocation = loadedEntries.filter(entry => entry.location && typeof entry.location !== 'string');
+            if (entriesWithLocation.length > 0) {
+                const firstEntry = entriesWithLocation[0];
+                const location = firstEntry.location as { latitude: number; longitude: number };
+                setInitialRegion({
+                    latitude: location.latitude,
+                    longitude: location.longitude,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                });
             }
-            console.log(`Found ${entriesWithLocation.length} entries with location data`);
         } catch (error) {
             console.error("Error loading entries for map:", error);
             Alert.alert("Error", "Failed to load entries for map");
+            setMapError("Failed to load map data. Please try again later.");
         } finally {
             setLoading(false);
         }
     };
 
-    const entriesWithLocation = entries.filter(entry => entry.location);
+    // Filter entries to only those with location data (as objects, not strings)
+    const entriesWithLocation = entries.filter(
+        entry => entry.location && typeof entry.location !== 'string'
+    ) as Array<TravelEntry & { 
+        location: { latitude: number; longitude: number; address: string } 
+    }>;
 
     if (loading) {
         return (
@@ -124,26 +132,41 @@ const MapScreen = () => {
                 ref={mapRef}
                 style={stylesMapScreen.map}
                 initialRegion={initialRegion}
+                mapType="hybrid"
+                
             >
                 {entriesWithLocation.map((entry) => (
                     <Marker
                         key={entry.id}
                         coordinate={{
-                            latitude: entry.location!.latitude,
-                            longitude: entry.location!.longitude,
+                            latitude: entry.location.latitude,
+                            longitude: entry.location.longitude,
+                        }}
+                        onPress={() => {
+                            mapRef.current?.animateToRegion({
+                                latitude: entry.location.latitude,
+                                longitude: entry.location.longitude,
+                                latitudeDelta: 0.001,
+                                longitudeDelta: 0.001,
+                            }, 800);
                         }}
                     >
-                        <Callout tooltip style={stylesMapScreen.customCallout}>
-                            <View style={stylesMapScreen.calloutContainer}>
-                                <Image 
-                                    source={{ uri: entry.images[0] }} 
-                                    style={stylesMapScreen.calloutImage} 
+                        <View style={stylesMapScreen.markerContainer}>
+                            <View style={stylesMapScreen.thumbnailMarker}>
+                                <Image
+                                    source={{ uri: entry.images[0] }}
+                                    style={stylesMapScreen.thumbnailImage}
                                 />
-                                <Text style={stylesMapScreen.calloutTitle} numberOfLines={2}>
+                            </View>
+                            <View style={stylesMapScreen.arrowDown} />
+                        </View>
+                        <Callout>
+                            <View style={stylesMapScreen.calloutContainer}>
+                                <Text style={stylesMapScreen.calloutCaption}>
                                     {entry.caption}
                                 </Text>
-                                <Text style={stylesMapScreen.calloutAddress} numberOfLines={1}>
-                                    {entry.location!.address}
+                                <Text style={stylesMapScreen.calloutDate}>
+                                    {formatPostDate(entry.datePosted || new Date().toISOString())}
                                 </Text>
                             </View>
                         </Callout>

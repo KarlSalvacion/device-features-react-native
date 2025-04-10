@@ -1,0 +1,74 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TravelEntry } from "../types/TravelEntry";
+
+// Load all travel entries from AsyncStorage
+export const loadTravelEntries = async (): Promise<TravelEntry[]> => {
+  try {
+    const storedEntries = await AsyncStorage.getItem("travelEntries");
+    return storedEntries ? JSON.parse(storedEntries) : [];
+  } catch (error) {
+    console.error("Error loading entries:", error);
+    return [];
+  }
+};
+
+// Save travel entries to AsyncStorage
+export const saveTravelEntries = async (entries: TravelEntry[]): Promise<boolean> => {
+  try {
+    await AsyncStorage.setItem("travelEntries", JSON.stringify(entries));
+    return true;
+  } catch (error) {
+    console.error("Error saving entries:", error);
+    return false;
+  }
+};
+
+// Remove a travel entry by ID
+export const removeEntry = async (entries: TravelEntry[], id: string): Promise<TravelEntry[]> => {
+  try {
+    const updatedEntries = entries.filter((entry) => entry.id !== id);
+    await saveTravelEntries(updatedEntries);
+    return updatedEntries;
+  } catch (error) {
+    console.error("Error removing entry:", error);
+    return entries;
+  }
+};
+
+// Toggle like status for an entry
+export const toggleLikeEntry = async (entries: TravelEntry[], id: string): Promise<TravelEntry[]> => {
+  try {
+    const updatedEntries = entries.map(entry => {
+      if (entry.id === id) {
+        const currentLikeCount = typeof entry.likeCount === 'number' ? entry.likeCount : 0;
+        const newIsLiked = !entry.isLiked;
+        return { 
+          ...entry, 
+          isLiked: newIsLiked,
+          likeCount: newIsLiked ? currentLikeCount + 1 : currentLikeCount - 1
+        };
+      }
+      return entry;
+    });
+    
+    await saveTravelEntries(updatedEntries);
+    return updatedEntries;
+  } catch (error) {
+    console.error("Error updating like status:", error);
+    return entries;
+  }
+};
+
+export const updateEntryCaption = async (entries: TravelEntry[], id: string, newCaption: string): Promise<TravelEntry[]> => {
+    try {
+        const updatedEntries = entries.map(entry => 
+            entry.id === id ? { ...entry, caption: newCaption } : entry
+        );
+        
+        await AsyncStorage.setItem("travelEntries", JSON.stringify(updatedEntries));
+        return updatedEntries;
+    } catch (error) {
+        console.error("Error updating entry caption:", error);
+        return entries;
+    }
+}; 
