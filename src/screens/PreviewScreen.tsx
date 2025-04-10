@@ -243,6 +243,10 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
             "rgb(31, 25, 4)" },
             pressed && { opacity: 0.7 }
           ]} onPress={saveEntry}>
+            <Ionicons name="send" size={24} color={isDarkMode ? 
+              "rgb(29, 29, 29)" : 
+              "rgb(223, 223, 223)" } 
+            />
             <Text style={[stylesPreviewScreen.saveButtonText, { color: isDarkMode ? 
               "rgb(29, 29, 29)" : 
               "rgb(223, 223, 223)" }]}>

@@ -9,7 +9,7 @@ const stylesHomeScreen = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    shadowColor: "#000",
+    height: 80,
   },
 
   title: {

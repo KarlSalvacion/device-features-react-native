@@ -114,6 +114,7 @@ const stylesPreviewScreen = StyleSheet.create({
       padding: 16,
       alignItems: 'center',
       zIndex: 1,
+      marginBottom: 50,
     },
     saveButton: {
       paddingVertical: 12,
@@ -123,6 +124,8 @@ const stylesPreviewScreen = StyleSheet.create({
       justifyContent: 'center',
       height: 50,
       width: '100%',
+      flexDirection: 'row',
+      gap: 10,
     },
     saveButtonText: {
       color: '#fff',

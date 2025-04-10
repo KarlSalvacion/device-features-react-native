@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TravelEntry } from "../types/TravelEntry";
 
-// Load all travel entries from AsyncStorage
 export const loadTravelEntries = async (): Promise<TravelEntry[]> => {
   try {
     const storedEntries = await AsyncStorage.getItem("travelEntries");
@@ -12,7 +11,6 @@ export const loadTravelEntries = async (): Promise<TravelEntry[]> => {
   }
 };
 
-// Save travel entries to AsyncStorage
 export const saveTravelEntries = async (entries: TravelEntry[]): Promise<boolean> => {
   try {
     await AsyncStorage.setItem("travelEntries", JSON.stringify(entries));
@@ -23,7 +21,6 @@ export const saveTravelEntries = async (entries: TravelEntry[]): Promise<boolean
   }
 };
 
-// Remove a travel entry by ID
 export const removeEntry = async (entries: TravelEntry[], id: string): Promise<TravelEntry[]> => {
   try {
     const updatedEntries = entries.filter((entry) => entry.id !== id);
@@ -35,7 +32,6 @@ export const removeEntry = async (entries: TravelEntry[], id: string): Promise<T
   }
 };
 
-// Toggle like status for an entry
 export const toggleLikeEntry = async (entries: TravelEntry[], id: string): Promise<TravelEntry[]> => {
   try {
     const updatedEntries = entries.map(entry => {
@@ -57,18 +53,4 @@ export const toggleLikeEntry = async (entries: TravelEntry[], id: string): Promi
     console.error("Error updating like status:", error);
     return entries;
   }
-};
-
-export const updateEntryCaption = async (entries: TravelEntry[], id: string, newCaption: string): Promise<TravelEntry[]> => {
-    try {
-        const updatedEntries = entries.map(entry => 
-            entry.id === id ? { ...entry, caption: newCaption } : entry
-        );
-        
-        await AsyncStorage.setItem("travelEntries", JSON.stringify(updatedEntries));
-        return updatedEntries;
-    } catch (error) {
-        console.error("Error updating entry caption:", error);
-        return entries;
-    }
 }; 
