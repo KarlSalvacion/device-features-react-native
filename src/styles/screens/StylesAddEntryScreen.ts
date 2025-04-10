@@ -227,6 +227,8 @@ const stylesAddEntryScreen = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
+        flexDirection: 'row',
+        gap: 10,
     },
     nextButtonText: {
         fontSize: 16,

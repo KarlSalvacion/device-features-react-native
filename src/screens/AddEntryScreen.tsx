@@ -474,7 +474,10 @@ const AddEntryScreen = ({ navigation }: any) => {
                                     ]}
                                     onPress={() => formikProps.handleSubmit()}
                                     disabled={images.length === 0}
-                                >
+                                >   
+                                    <Ionicons name="eye" size={24} color={isDarkMode ? 
+                                        "rgb(29, 29, 29)" : 
+                                        "rgb(223, 223, 223)" } />
                                     <Text style={[
                                         stylesAddEntryScreen.nextButtonText, 
                                         { color: isDarkMode ? 
