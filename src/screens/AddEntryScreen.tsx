@@ -12,12 +12,24 @@ import * as Yup from 'yup';
 const MAX_IMAGES = 5;
 const MAX_CAPTION_LENGTH = 150;
 
+const BAD_WORDS = [
+    'retard', 'nigger','nigga', 'fag', 'faggot', 'whore', 'slut', 
+    'chink', 'ching chong', 'dyke', 'tranny','retards', 'niggers',
+    'niggas', 'fags', 'faggots', 'whores', 'sluts', 'chinks', 
+    'ching chongs', 'dykes', 'trannies',
+];
+
 const validationSchema = Yup.object().shape({
   caption: Yup.string()
     .max(MAX_CAPTION_LENGTH, `Caption must be at most ${MAX_CAPTION_LENGTH} characters`)
     .test('no-trailing-linebreak', 'Caption cannot end with a line break', (value) => {
       if (!value) return true;
       return !value.endsWith('\n');
+    })
+    .test('no-bad-words', 'Please refrain from using hateful and discriminatory language', (value) => {
+      if (!value) return true;
+      const words = value.toLowerCase().split(/\s+/);
+      return !words.some(word => BAD_WORDS.includes(word));
     }),
 });
 

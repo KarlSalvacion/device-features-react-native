@@ -46,7 +46,12 @@ const MapScreen = () => {
             const loadedEntries = await loadTravelEntries();
             setEntries(loadedEntries);
             
-            const entriesWithLocation = loadedEntries.filter(entry => entry.location && typeof entry.location !== 'string');
+            const entriesWithLocation = loadedEntries.filter(entry => 
+                typeof entry.location === 'object' && 
+                entry.location !== null && 
+                'latitude' in entry.location && 
+                'longitude' in entry.location
+            );
             if (entriesWithLocation.length > 0) {
                 const firstEntry = entriesWithLocation[0];
                 const location = firstEntry.location as { latitude: number; longitude: number };
@@ -66,7 +71,6 @@ const MapScreen = () => {
         }
     };
 
-    // Filter entries to only those with location data (as objects, not strings)
     const entriesWithLocation = entries.filter(
         entry => entry.location && typeof entry.location !== 'string'
     ) as Array<TravelEntry & { 
@@ -128,6 +132,19 @@ const MapScreen = () => {
 
     return (
         <View style={stylesMapScreen.container}>
+            <View style={[stylesMapScreen.headerContainer, { 
+                backgroundColor: isDarkMode ? 
+                    'rgb(29, 29, 29)' : 
+                    'rgb(253, 253, 253)' }
+                ]}>
+                <Text style={[stylesMapScreen.headerTitle, { 
+                    color: isDarkMode ? 
+                    "rgb(223, 223, 223)" : 
+                    "rgb(29, 29, 29)" }
+                ]}>
+                    Map
+                </Text>
+            </View>
             <MapView
                 ref={mapRef}
                 style={stylesMapScreen.map}

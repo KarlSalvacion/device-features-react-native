@@ -7,7 +7,7 @@ const stylesAddEntryScreen = StyleSheet.create({
 
     headerContainer: {
         backgroundColor: '#0095f6',
-        height: 50,
+        height: 60,
         width: '100%',
         paddingHorizontal: 15,
         justifyContent: 'space-between',
@@ -15,8 +15,8 @@ const stylesAddEntryScreen = StyleSheet.create({
         flexDirection: 'row',
     },
     headerTitle: {
-        fontSize: 18,
-        fontWeight: '600',
+        fontSize: 24,
+        fontWeight: '700',
         flex: 1,
         textAlign: 'left',
     },
@@ -211,6 +211,7 @@ const stylesAddEntryScreen = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         gap: 10,
+        marginBottom: 10,
     },
     imageCount: {
         fontSize: 14,

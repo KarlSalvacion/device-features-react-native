@@ -77,7 +77,10 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     };
 
     return (
-        <View style={stylesNavigation.navigationContainer}>
+        <View style={[stylesNavigation.navigationContainer, { 
+            borderTopColor: isDarkMode ? 
+            'rgb(36, 36, 36)' : 
+            'rgb(242, 242, 242)' }]}>
             <Animated.View 
                 style={[
                     stylesNavigation.indicator,

@@ -114,6 +114,7 @@ const stylesPreviewScreen = StyleSheet.create({
       padding: 16,
       alignItems: 'center',
       zIndex: 1,
+      marginBottom: 10,
     },
     saveButton: {
       paddingVertical: 12,

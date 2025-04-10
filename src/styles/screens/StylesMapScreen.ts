@@ -4,6 +4,19 @@ const stylesMapScreen = StyleSheet.create({
     container: {
         flex: 1,
     },
+    headerContainer: {
+        height: 60,
+        width: '100%',
+        paddingHorizontal: 15,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    headerTitle: {
+        fontSize: 24,
+        fontWeight: '700',
+    },
+    
     loadingContainer: {
         flex: 1,
         justifyContent: 'center',

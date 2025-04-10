@@ -3,8 +3,6 @@ import { StyleSheet } from "react-native";
 const stylesNavigation = StyleSheet.create({
     navigationContainer: {
         borderTopWidth: 1,
-        borderTopColor: 'rgba(0, 0, 0, 0.1)',
-        backgroundColor: '',
         height: 65,
         width: "100%",
         alignSelf: "center",
