@@ -188,7 +188,7 @@ const stylesAddEntryScreen = StyleSheet.create({
     },
     
     locationDetails: {
-        
+        borderWidth: 1,
         padding: 12,
         borderRadius: 8,
         marginBottom: 20
