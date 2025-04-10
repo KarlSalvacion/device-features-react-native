@@ -26,7 +26,6 @@ const stylesMapScreen = StyleSheet.create({
         height: Dimensions.get('window').height,
     },
     calloutContainer: {
-        padding: 10,
         backgroundColor: "#fff",
         borderRadius: 5,
         width: 200,
@@ -35,7 +34,7 @@ const stylesMapScreen = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         color: "#333",
-        marginBottom: 5,
+
     },
     calloutDate: {
         fontSize: 14,

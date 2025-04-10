@@ -164,7 +164,10 @@ const HomeScreen = ({ navigation }: any) => {
         <Text style={[stylesHomeScreen.title, { color: isDarkMode ? "#ffffff" : "#262626" }]}>
           TITEGRAM!!!!
         </Text>
-        <Pressable onPress={toggleTheme} style={stylesHomeScreen.themeButton}>
+        <Pressable onPress={toggleTheme} style={({ pressed }) => [
+          stylesHomeScreen.themeButton,
+          pressed && { opacity: 0.7 }
+        ]}>
           <Ionicons
             name={isDarkMode ? "sunny" : "moon"}
             size={24}
@@ -176,7 +179,7 @@ const HomeScreen = ({ navigation }: any) => {
       {entries.length === 0 ? (
         <View style={stylesHomeScreen.emptyContainer}>
           <AntDesign name="frowno" style={stylesHomeScreen.emptyIcon}/>
-          <Text style={[stylesHomeScreen.emptyText, { color: isDarkMode ? "#ffffff" : "#8e8e8e" }]}>
+          <Text style={[stylesHomeScreen.emptyText, { color: isDarkMode ? "#8e8e8e" : "#8e8e8e" }]}>
             No posts yet. Capture your first travel moment!
           </Text>
         </View>

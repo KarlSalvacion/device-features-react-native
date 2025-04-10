@@ -29,7 +29,6 @@ const stylesHomeScreen = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
-    backgroundColor: '#ff0000',
   },
   emptyIcon:{
     marginTop: -100,

@@ -49,7 +49,6 @@ const MapScreen = () => {
             const entriesWithLocation = loadedEntries.filter(entry => entry.location && typeof entry.location !== 'string');
             if (entriesWithLocation.length > 0) {
                 const firstEntry = entriesWithLocation[0];
-                // Type assertion to handle potential string type for location
                 const location = firstEntry.location as { latitude: number; longitude: number };
                 setInitialRegion({
                     latitude: location.latitude,

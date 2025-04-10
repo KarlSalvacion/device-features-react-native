@@ -57,4 +57,18 @@ export const toggleLikeEntry = async (entries: TravelEntry[], id: string): Promi
     console.error("Error updating like status:", error);
     return entries;
   }
+};
+
+export const updateEntryCaption = async (entries: TravelEntry[], id: string, newCaption: string): Promise<TravelEntry[]> => {
+    try {
+        const updatedEntries = entries.map(entry => 
+            entry.id === id ? { ...entry, caption: newCaption } : entry
+        );
+        
+        await AsyncStorage.setItem("travelEntries", JSON.stringify(updatedEntries));
+        return updatedEntries;
+    } catch (error) {
+        console.error("Error updating entry caption:", error);
+        return entries;
+    }
 }; 

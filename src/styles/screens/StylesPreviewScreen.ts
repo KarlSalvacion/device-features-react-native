@@ -12,8 +12,6 @@ const stylesPreviewScreen = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: 15,
-      borderBottomWidth: 1,
-      borderBottomColor: '#333',
       zIndex: 1,
     },
     previewUserInfo: {
@@ -42,7 +40,7 @@ const stylesPreviewScreen = StyleSheet.create({
       aspectRatio: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#000',
+
     },
     image: {
       width: '100%',
@@ -113,17 +111,17 @@ const stylesPreviewScreen = StyleSheet.create({
       fontStyle: 'italic',
     },
     footer: {
-      borderTopWidth: 1,
-      borderTopColor: '#333',
       padding: 16,
       alignItems: 'center',
       zIndex: 1,
     },
     saveButton: {
-      backgroundColor: '#0095f6',
-      padding: 12,
-      borderRadius: 5,
+      paddingVertical: 12,
+      paddingHorizontal: 40,
+      borderRadius: 10,
       alignItems: 'center',
+      justifyContent: 'center',
+      height: 50,
       width: '100%',
     },
     saveButtonText: {

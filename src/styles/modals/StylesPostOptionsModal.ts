@@ -35,8 +35,7 @@ const stylesPostOptionsModal = StyleSheet.create({
         alignItems: 'center',
     },
     deleteButton: {
-        borderBottomWidth: 0.5,
-        borderBottomColor: '#dbdbdb',
+        
     },
     darkDeleteButton: {
         borderBottomColor: '#3d3d3d',

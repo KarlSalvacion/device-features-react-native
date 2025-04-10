@@ -31,7 +31,7 @@ Notifications.setNotificationHandler({
     handleNotification: async () => ({
         shouldShowAlert: true,
         shouldPlaySound: true,
-        shouldSetBadge: false,
+        shouldSetBadge: true,
     }),
 });
 
@@ -145,10 +145,12 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={[stylesPreviewScreen.container, { backgroundColor: isDarkMode ? "#1a1a1a" : "#ffffff" }]}>
-      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-      
-      <View style={stylesPreviewScreen.previewContainer}>
+      <View style={[
+        stylesPreviewScreen.previewContainer, 
+        { backgroundColor: isDarkMode ? 
+          "rgb(29, 29, 29)" : 
+          "rgb(253, 253, 253)" }
+        ]}>
         <View style={stylesPreviewScreen.previewHeader}>
           <Pressable style={stylesPreviewScreen.backButton} onPress={goBack}>
             <Ionicons name="arrow-back" size={24} color={isDarkMode ? "#ffffff" : "#262626"} />
@@ -200,32 +202,55 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
 
           <View style={stylesPreviewScreen.actionButtons}>
             <Pressable style={stylesPreviewScreen.actionButton}>
-              <Ionicons name="heart-outline" size={24} color={isDarkMode ? "#ffffff" : "#262626"} />
+              <Ionicons name="heart-outline" size={24} color={isDarkMode ? 
+                "rgb(223, 223, 223)" : 
+                "rgb(29, 29, 29)" } />
             </Pressable>
             <Pressable style={stylesPreviewScreen.actionButton}>
-              <Ionicons name="chatbubble-outline" size={24} color={isDarkMode ? "#ffffff" : "#262626"} />
+              <Ionicons name="chatbubble-outline" size={24} color={isDarkMode ? 
+                "rgb(223, 223, 223)" : 
+                "rgb(29, 29, 29)" } />
             </Pressable>
           </View>
 
           <View style={stylesPreviewScreen.captionContainer}>
-            <Text style={[stylesPreviewScreen.captionText, { color: isDarkMode ? "#ffffff" : "#262626" }]}>{caption}</Text>
+            <Text style={[stylesPreviewScreen.captionText, 
+              { color: isDarkMode ? 
+              "rgb(223, 223, 223)" : 
+              "rgb(29, 29, 29)" }
+              ]}>
+              <Text style={{ fontWeight: 'bold' }}>Karl Salvacion</Text>{caption}
+            </Text>
             
             {location && (
               <View style={stylesPreviewScreen.locationInfo}>
-                <Ionicons name="location" size={16} color={isDarkMode ? "#ffffff" : "#262626"} style={stylesPreviewScreen.locationIcon} />
-                <Text style={[stylesPreviewScreen.locationText, { color: isDarkMode ? "#ffffff" : "#262626" }]}>{location.address}</Text>
+                <Ionicons name="location" size={16} color={isDarkMode ? 
+                  "rgb(223, 223, 223)" : 
+                  "rgb(29, 29, 29)" } style={stylesPreviewScreen.locationIcon} />
+                <Text style={[stylesPreviewScreen.locationText, { color: isDarkMode ? 
+                  "rgb(223, 223, 223)" : 
+                  "rgb(29, 29, 29)" }]}>{location.address}</Text>
               </View>
             )}
           </View>
         </ScrollView>
 
         <View style={stylesPreviewScreen.footer}>
-          <Pressable style={stylesPreviewScreen.saveButton} onPress={saveEntry}>
-            <Text style={stylesPreviewScreen.saveButtonText}>Share</Text>
+          <Pressable style={({ pressed }) => [
+            stylesPreviewScreen.saveButton,
+            { backgroundColor: isDarkMode ? 
+            "rgb(253, 253, 253)" : 
+            "rgb(31, 25, 4)" },
+            pressed && { opacity: 0.7 }
+          ]} onPress={saveEntry}>
+            <Text style={[stylesPreviewScreen.saveButtonText, { color: isDarkMode ? 
+              "rgb(29, 29, 29)" : 
+              "rgb(223, 223, 223)" }]}>
+              Share
+            </Text>
           </Pressable>
         </View>
       </View>
-    </SafeAreaView>
   );
 };
 

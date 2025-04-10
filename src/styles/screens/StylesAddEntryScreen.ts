@@ -28,26 +28,34 @@ const stylesAddEntryScreen = StyleSheet.create({
     clearButtonText: {
         fontSize: 14,
         marginLeft: 4,
+        fontWeight: '600',
     },
     captionInputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         position: 'relative',
+        width: '100%',
+        minHeight: 100,
     },
     clearCaptionButton: {
         position: 'absolute',
         right: 10,
+        top: 10,
         padding: 5,
+        zIndex: 1,
     },
     captionInput: {
         flex: 1,
-        height: 40,
+        minHeight: 100,
+        maxHeight: 200,
         borderWidth: 1,
-        
         borderRadius: 5,
         paddingHorizontal: 10,
+        paddingVertical: 8,
         marginTop: 5,
         fontSize: 14,
+        textAlignVertical: 'top',
+        paddingRight: 40,
     },
     contentContainer: {
         
@@ -135,6 +143,7 @@ const stylesAddEntryScreen = StyleSheet.create({
         paddingVertical: 10,
         gap: 10,
         marginBottom: 0,
+        minHeight: 120,
     },
 
     captionTitle: {
@@ -147,6 +156,7 @@ const stylesAddEntryScreen = StyleSheet.create({
         paddingVertical: 10,
         gap: 10,
         marginTop: 0,
+        
     },
     
     locationHeader: {
@@ -173,14 +183,15 @@ const stylesAddEntryScreen = StyleSheet.create({
     
     locationButtonText: {
         fontSize: 14,
+        fontWeight: '600',
         color: 'rgb(113, 113, 113)',
     },
     
     locationDetails: {
-        backgroundColor: 'rgb(245, 245, 245)',
+        
         padding: 12,
         borderRadius: 8,
-        marginBottom: 20,
+        marginBottom: 20
     },
     
     locationAddress: {
@@ -217,7 +228,6 @@ const stylesAddEntryScreen = StyleSheet.create({
         width: '100%',
     },
     nextButtonText: {
-        color: 'white',
         fontSize: 16,
         fontWeight: '600',
     },
@@ -229,6 +239,36 @@ const stylesAddEntryScreen = StyleSheet.create({
         padding: 10,
         marginRight: 15,
     },
+    characterCount: {
+        position: 'absolute',
+        right: 10,
+        bottom: 10,
+        fontSize: 12,
+        color: '#8e8e8e',
+    },
+    inputAccessoryView: {
+        height: 44,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        borderTopWidth: 1,
+    },
+    doneButton: {
+        paddingHorizontal: 15,
+        paddingVertical: 8,
+        borderRadius: 5,
+    },
+    doneButtonText: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: '#007AFF',
+    },
+
+    errorText: {
+        fontSize: 12,
+        marginTop: 4,
+      },
 });
 
 export default stylesAddEntryScreen; 
