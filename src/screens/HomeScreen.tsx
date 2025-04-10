@@ -9,6 +9,7 @@ import { TravelEntry } from "../types/TravelEntry";
 import { loadTravelEntries, removeEntry, toggleLikeEntry } from "../utility/StorageUtility";
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import * as Font from 'expo-font';
 
 const HomeScreen = ({ navigation }: any) => {
   const { isDarkMode, toggleTheme } = useTheme();
@@ -20,6 +21,18 @@ const HomeScreen = ({ navigation }: any) => {
   const [showHeart, setShowHeart] = useState<{id: string, heartId: string, x: number, y: number}[]>([]);
   const lastTapTimeRef = useRef<Record<string, number>>({});
   const heartIdCounter = useRef(0);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFont = async () => {
+      await Font.loadAsync({
+        'Gothic-Expanded': require('../assets/fonts/SpecialGothicExpandedOne-Regular.ttf'),
+      });
+      setFontsLoaded(true);
+    };
+
+    loadFont();
+  }, []);
 
   useEffect(() => {
     if (Device.isDevice) {
@@ -162,7 +175,7 @@ const HomeScreen = ({ navigation }: any) => {
         onPress={scrollToTop}
       >
         <Text style={[stylesHomeScreen.title, { color: isDarkMode ? "#ffffff" : "#262626" }]}>
-          TITEGRAM!!!!
+          DailyExposure
         </Text>
         <Pressable onPress={toggleTheme} style={({ pressed }) => [
           stylesHomeScreen.themeButton,
