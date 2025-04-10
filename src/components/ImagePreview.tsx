@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ScrollView, Image, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../context/ThemeContext';
-import stylesImagePreview from '../styles/StylesImagePreview';
+import stylesImagePreview from '../styles/components/StylesImagePreview';
 
 interface ImagePreviewProps {
   images: string[];

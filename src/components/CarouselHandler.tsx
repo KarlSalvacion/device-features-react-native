@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { ScrollView, ScrollViewProps, Dimensions, View } from "react-native";
-import stylesCarouselHandler from "../styles/StylesCarouselHandler";
+import stylesCarouselHandler from "../styles/components/StylesCarouselHandler";
 
 interface CarouselHandlerProps extends ScrollViewProps {
   entryId: string;

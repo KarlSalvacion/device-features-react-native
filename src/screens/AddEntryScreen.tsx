@@ -3,7 +3,7 @@ import { View, Pressable, Text, Alert, Linking, TextInput, ScrollView, Keyboard,
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
 import ImagePreview from "../components/ImagePreview";
-import stylesAddEntryScreen from "../styles/StylesAddEntryScreen";
+import stylesAddEntryScreen from "../styles/screens/StylesAddEntryScreen";
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 
@@ -241,7 +241,7 @@ const AddEntryScreen = ({ navigation }: any) => {
                     <Text style={[stylesAddEntryScreen.clearButtonText, { color: isDarkMode ? 
                         "rgb(223, 223, 223)" : 
                         "rgb(29, 29, 29)" }]}>
-                        Clear
+                        Clearhehe
                     </Text>
                 </Pressable>
             </View>

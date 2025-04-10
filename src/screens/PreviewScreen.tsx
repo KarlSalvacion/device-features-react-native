@@ -3,7 +3,7 @@ import { View, Text, Pressable, Alert, StatusBar, SafeAreaView, ScrollView, Imag
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import stylesPreviewScreen from "../styles/StylesPreviewScreen";
+import stylesPreviewScreen from "../styles/screens/StylesPreviewScreen";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AddEntryStackParamList } from '../navigation/NavigationControl';
 import { CommonActions } from '@react-navigation/native';

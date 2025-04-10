@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Modal, Pressable, Alert, Animated, PanResponder } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import stylesPostOptionsModal from '../styles/StylesPostOptionsModal';
+import stylesPostOptionsModal from '../styles/modals/StylesPostOptionsModal';
 
 interface PostOptionsModalProps {
     isVisible: boolean;

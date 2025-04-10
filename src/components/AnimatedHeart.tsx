@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import stylesHeartAnimation from '../styles/StylesHeartAnimation';
+import stylesHeartAnimation from '../styles/components/StylesHeartAnimation';
 
 interface AnimatedHeartProps {
     isVisible: boolean;

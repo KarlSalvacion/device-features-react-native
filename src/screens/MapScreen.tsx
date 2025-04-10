@@ -3,7 +3,7 @@ import { View, Text, Alert, ActivityIndicator, Image } from "react-native";
 import { useTheme } from "../context/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker, Callout } from "react-native-maps";
-import stylesMapScreen from "../styles/StylesMapScreen";
+import stylesMapScreen from "../styles/screens/StylesMapScreen";
 import { TravelEntry, formatPostDate } from "../types/TravelEntry";
 import { loadTravelEntries } from "../utility/StorageUtility";
 import { useNavigation } from "@react-navigation/native";

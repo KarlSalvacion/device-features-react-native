@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, FlatList, Pressable, RefreshControl } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
-import stylesHomeScreen from "../styles/StylesHomeScreen";
+import stylesHomeScreen from "../styles/screens/StylesHomeScreen";
 import TravelPostItem from "../components/TravelPostItem";
 import AnimatedHeart from "../components/AnimatedHeart";
 import { TravelEntry } from "../types/TravelEntry";

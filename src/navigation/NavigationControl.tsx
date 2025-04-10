@@ -9,7 +9,7 @@ import MapScreen from '../screens/MapScreen';
 import PreviewScreen from '../screens/PreviewScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RootTabParamList } from './NavigationType';
-import stylesNavigation from "../styles/StylesNavigation";
+import stylesNavigation from "../styles/navigation/StylesNavigation";
 
 export type AddEntryStackParamList = {
   Camera: undefined;
@@ -110,50 +110,41 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                         <Pressable
                             key={route.key}
                             onPress={onPress}
-                            style={stylesNavigation.tabBarButton}
-                        >
-                            <View style={stylesNavigation.tabBarContainer}>
-                                {route.name === "Home" ? (
-                                    <Ionicons
-                                        name={isFocused ? "home" : "home-outline"}
-                                        style={[
-                                            stylesNavigation.tabBarIcon,
-                                            {color: isDarkMode ? 
-                                                'rgb(171, 171, 171)' : 
-                                                'rgb(29, 29, 29)'},
-                                            isFocused && {color: isDarkMode? 
-                                                'rgb(223, 223, 223)' :
-                                                'rgb(29, 29, 29)'},
-                                        ]}
-                                    />
-                                ) : route.name === "Add Entry" ? (
-                                    <Ionicons
-                                        name={isFocused ? "camera" : "camera-outline"}
-                                        style={[
-                                            stylesNavigation.tabBarIcon,
-                                            {color: isDarkMode ? 
-                                                'rgb(171, 171, 171)' : 
-                                                'rgb(29, 29, 29)'},
-                                            isFocused && {color: isDarkMode? 
-                                                'rgb(223, 223, 223)' :
-                                                'rgb(29, 29, 29)'},
-                                        ]}
-                                    />
-                                ) : (
-                                    <Ionicons
-                                        name={isFocused ? "map" : "map-outline"}
-                                        style={[
-                                            stylesNavigation.tabBarIcon,
-                                            {color: isDarkMode ? 
-                                                'rgb(171, 171, 171)' : 
-                                                'rgb(29, 29, 29)'},
-                                            isFocused && {color: isDarkMode? 
-                                                'rgb(223, 223, 223)' :
-                                                'rgb(29, 29, 29)'},
-                                        ]}
-                                    />
-                                )}
-                            </View>
+                            style={({ pressed }) => [
+                                stylesNavigation.tabBarButton,
+                                pressed && !isFocused && {
+                                backgroundColor: isDarkMode
+                                    ? 'rgba(223, 223, 223, 0.03)'
+                                    : 'rgba(29, 29, 29, 0.03)',
+                                },
+                            ]}
+                            >
+                            {({ pressed }) => (
+                                <View style={stylesNavigation.tabBarContainer}>
+                                <Ionicons
+                                    name={
+                                    route.name === "Home"
+                                        ? isFocused ? "home" : "home-outline"
+                                        : route.name === "Add Entry"
+                                        ? isFocused ? "camera" : "camera-outline"
+                                        : isFocused ? "map" : "map-outline"
+                                    }
+                                    style={[
+                                    stylesNavigation.tabBarIcon,
+                                        {
+                                            color: isDarkMode ? 'rgb(171, 171, 171)' : 'rgb(29, 29, 29)',
+                                            fontSize:
+                                            pressed && !isFocused
+                                                ? 30
+                                                : 28, 
+                                        },
+                                        isFocused && {
+                                            color: isDarkMode ? 'rgb(223, 223, 223)' : 'rgb(29, 29, 29)',
+                                        },
+                                    ]}
+                                />
+                                </View>
+                            )}
                         </Pressable>
                     );
                 })}

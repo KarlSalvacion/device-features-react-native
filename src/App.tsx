@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { CameraProvider } from './context/CameraContext';
 import NavigationControl from './navigation/NavigationControl';
-import stylesGlobal from './styles/StylesGlobal';
+import stylesGlobal from './styles/screens/StylesGlobal';
 
 const AppContent = () => {
   const { isDarkMode } = useTheme();

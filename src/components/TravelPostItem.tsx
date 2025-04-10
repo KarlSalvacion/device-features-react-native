@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Pressable, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import stylesTravelPostItem from "../styles/StylesTravelPostItem";
+import stylesTravelPostItem from "../styles/components/StylesTravelPostItem";
 import { TravelEntry, formatPostDate } from "../types/TravelEntry";
 import CarouselHandler from "./CarouselHandler";
 import PostOptionsModal from "../modals/PostOptionsModal";
