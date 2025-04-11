@@ -30,6 +30,7 @@ const HomeScreen = ({ navigation }: any) => {
         'Instrument-Regular': require('../assets/fonts/InstrumentSerif-Regular.ttf'),
         'Playfair-Black-Italic': require('../assets/fonts/PlayfairDisplay-BlackItalic.ttf'),
         'Playfair-Black': require('../assets/fonts/PlayfairDisplay-Black.ttf'),
+        'LobsterTwo-Bold-Italic': require('../assets/fonts/LobsterTwo-BoldItalic.ttf'),
       });
       setFontsLoaded(true);
     };

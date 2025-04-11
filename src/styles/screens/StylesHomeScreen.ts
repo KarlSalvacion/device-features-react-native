@@ -13,9 +13,9 @@ const stylesHomeScreen = StyleSheet.create({
   },
 
   title: {
-    fontSize: 22,
+    fontSize: 26,
     fontWeight: "bold",
-    fontFamily: "Playfair-Black-Italic",
+    fontFamily: "LobsterTwo-Bold-Italic",
     lineHeight: 50,
     paddingRight: 10,
   },

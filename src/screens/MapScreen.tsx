@@ -150,7 +150,6 @@ const MapScreen = () => {
                 style={stylesMapScreen.map}
                 initialRegion={initialRegion}
                 mapType="hybrid"
-                
             >
                 {entriesWithLocation.map((entry) => (
                     <Marker
