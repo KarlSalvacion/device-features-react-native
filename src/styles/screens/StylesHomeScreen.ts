@@ -16,6 +16,7 @@ const stylesHomeScreen = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     fontFamily: "Gothic-Expanded",
+    lineHeight: 28,
   },
   themeButton: {
     padding: 10,

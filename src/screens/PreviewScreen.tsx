@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Pressable, Alert, StatusBar, SafeAreaView, ScrollView, Image, Platform } from "react-native";
+import { View, Text, Pressable, Alert, ScrollView, Image, Platform, } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -10,6 +10,8 @@ import { CommonActions } from '@react-navigation/native';
 import CarouselHandler from "../components/CarouselHandler";
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import * as MediaLibrary from 'expo-media-library';
+import SaveToGalleryModal from '../modals/SaveToGalleryModal';
 
 type Props = NativeStackScreenProps<AddEntryStackParamList, 'Preview'>;
 
@@ -39,6 +41,8 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
   const { isDarkMode } = useTheme();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+  const [saveToGallery, setSaveToGallery] = useState<boolean>(false);
+  const [isSaveToGalleryModalVisible, setIsSaveToGalleryModalVisible] = useState<boolean>(false);
   const { images, caption, location, datePosted } = route.params;
 
   useEffect(() => {
@@ -87,50 +91,80 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
     }
   };
 
+  const saveImagesToGallery = async (imageUris: string[]) => {
+    try {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      
+      if (status !== 'granted') {
+        Alert.alert(
+          'Permission Required',
+          'Please grant permission to save images to your gallery.',
+          [{ text: 'OK' }]
+        );
+        return;
+      }
+
+      for (const uri of imageUris) {
+        await MediaLibrary.saveToLibraryAsync(uri);
+      }
+
+      Alert.alert('Success', 'Images saved to gallery successfully!');
+    } catch (error) {
+      console.error('Error saving images to gallery:', error);
+      Alert.alert('Error', 'Failed to save images to gallery.');
+    }
+  };
+
   const saveEntry = async () => {
+    try {
+      setIsLoading(true);
+      const entries = await AsyncStorage.getItem("travelEntries");
+      const newEntry: TravelEntry = {
+        id: Date.now().toString(),
+        caption: caption || '',
+        images,
+        location: location || null,
+        datePosted: new Date().toISOString(),
+        isLiked: false,
+        likeCount: 0
+      };
+
+      const existingEntries = entries ? JSON.parse(entries) : [];
+      existingEntries.push(newEntry);
+      await AsyncStorage.setItem("travelEntries", JSON.stringify(existingEntries));
+      
+      await sendNotification();
+      
+      if (saveToGallery) {
+        await saveImagesToGallery(images);
+      }
+      
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        })
+      );
+    } catch (error) {
+      console.error('Error saving entry:', error);
+      Alert.alert('Error', 'Failed to save entry. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleShare = () => {
     Alert.alert(
-      "Share Post",
-      "Are you sure you want to share this post?",
+      'Confirm Post',
+      'Are you sure you want to share this post?',
       [
         {
-          text: "Cancel",
-          style: "cancel"
+          text: 'Cancel',
+          style: 'cancel'
         },
         {
-          text: "Share",
-          style: "default",
-          onPress: async () => {
-            setIsLoading(true);
-            try {
-              const newEntry: TravelEntry = {
-                id: Date.now().toString(),
-                caption,
-                images,
-                location,
-                datePosted: datePosted || new Date().toISOString(),
-                isLiked: false,
-                likeCount: 0
-              };
-
-              const existingEntries = await AsyncStorage.getItem("travelEntries");
-              const entries = existingEntries ? JSON.parse(existingEntries) : [];
-              entries.push(newEntry);
-              await AsyncStorage.setItem("travelEntries", JSON.stringify(entries));
-              
-              await sendNotification();
-              
-              navigation.dispatch(
-                CommonActions.reset({
-                  index: 0,
-                  routes: [{ name: 'Home' }],
-                })
-              );
-            } catch (error) {
-              Alert.alert("Error", "Failed to save entry");
-            } finally {
-              setIsLoading(false);
-            }
-          }
+          text: 'Share',
+          onPress: saveEntry
         }
       ]
     );
@@ -155,8 +189,26 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
           <Pressable style={stylesPreviewScreen.backButton} onPress={goBack}>
             <Ionicons name="arrow-back" size={24} color={isDarkMode ? "#ffffff" : "#262626"} />
           </Pressable>
-          <Text style={[stylesPreviewScreen.headerTitle, { color: isDarkMode ? "#ffffff" : "#262626" }]}>Preview</Text>
-          <View style={{ width: 24 }} />
+          
+          <Text style={[
+            stylesPreviewScreen.headerTitle, { 
+            color: isDarkMode ? 
+            "rgb(223, 223, 223)" : 
+            "rgb(29, 29, 29)" }
+            ]}>
+            Preview
+
+          </Text>
+          <Pressable 
+            style={stylesPreviewScreen.saveToGalleryButton}
+            onPress={() => setIsSaveToGalleryModalVisible(true)}
+          >
+            <Ionicons 
+              name={saveToGallery ? "ellipsis-horizontal" : "ellipsis-horizontal"} 
+              size={24} 
+              color={isDarkMode ? "#ffffff" : "#262626"} 
+            />
+          </Pressable>
         </View>
 
         <ScrollView>
@@ -219,7 +271,7 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
               "rgb(223, 223, 223)" : 
               "rgb(29, 29, 29)" }
               ]}>
-              <Text style={{ fontWeight: 'bold' }}>Karl Salvacion</Text>{caption}
+              <Text style={{ fontWeight: 'bold'}}>Karl Salvacion</Text> {caption}
             </Text>
             
             {location && (
@@ -235,14 +287,25 @@ const PreviewScreen: React.FC<Props> = ({ route, navigation }) => {
           </View>
         </ScrollView>
 
+        <SaveToGalleryModal
+          isVisible={isSaveToGalleryModalVisible}
+          onClose={() => setIsSaveToGalleryModalVisible(false)}
+          isDarkMode={isDarkMode}
+          saveToGallery={saveToGallery}
+          onToggleSave={() => setSaveToGallery(!saveToGallery)}
+        />
+
         <View style={stylesPreviewScreen.footer}>
-          <Pressable style={({ pressed }) => [
-            stylesPreviewScreen.saveButton,
-            { backgroundColor: isDarkMode ? 
-            "rgb(253, 253, 253)" : 
-            "rgb(31, 25, 4)" },
-            pressed && { opacity: 0.7 }
-          ]} onPress={saveEntry}>
+          <Pressable 
+            style={({ pressed }) => [
+              stylesPreviewScreen.saveButton,
+              { backgroundColor: isDarkMode ? 
+                "rgb(253, 253, 253)" : 
+                "rgb(31, 25, 4)" },
+              pressed && { opacity: 0.7 }
+            ]} 
+            onPress={handleShare}
+          >
             <Ionicons name="send" size={24} color={isDarkMode ? 
               "rgb(29, 29, 29)" : 
               "rgb(223, 223, 223)" } 
