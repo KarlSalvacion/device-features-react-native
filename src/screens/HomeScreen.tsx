@@ -73,12 +73,16 @@ const HomeScreen = ({ navigation }: any) => {
     flatListRef.current?.scrollToOffset({ offset: 0, animated: true });
   };
 
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
   const onRefresh = async () => {
     setRefreshing(true);
     setCurrentTime(new Date());
     await loadEntries();
+    await delay(500);
     setRefreshing(false);
   };
+
 
   const handleRemoveEntry = async (id: string) => {
     const updatedEntries = await removeEntry(entries, id);
@@ -174,7 +178,11 @@ const HomeScreen = ({ navigation }: any) => {
         ]}
         onPress={scrollToTop}
       >
-        <Text style={[stylesHomeScreen.title, { color: isDarkMode ? "#ffffff" : "#262626" }]}>
+        <Text style={[stylesHomeScreen.title, { 
+          color: isDarkMode ? 
+            "rgb(253, 253, 253)" : 
+            "rgb(29, 29, 29)" }
+          ]}>
           DailyExposure
         </Text>
         <Pressable onPress={toggleTheme} style={({ pressed }) => [
@@ -208,8 +216,8 @@ const HomeScreen = ({ navigation }: any) => {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              colors={["#0095f6"]}
-              tintColor={isDarkMode ? "#ffffff" : "#0095f6"}
+              colors={["rgb(253, 253, 253)"]}
+              tintColor={isDarkMode ? "rgb(253, 253, 253)" : "rgb(31, 25, 4)"}
             />
           }
         />

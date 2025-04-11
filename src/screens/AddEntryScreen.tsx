@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Pressable, Text, Alert, Linking, TextInput, ScrollView, Keyboard, ActivityIndicator, TouchableWithoutFeedback, InputAccessoryView, Platform, GestureResponderEvent } from "react-native";
+import { View, Pressable, Text, Alert, Linking, TextInput, ScrollView, Keyboard, ActivityIndicator, TouchableWithoutFeedback, InputAccessoryView, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "../context/ThemeContext";
 import ImagePreview from "../components/ImagePreview";
@@ -45,6 +45,7 @@ const AddEntryScreen = ({ navigation }: any) => {
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
     const [address, setAddress] = useState<string>("");
     const [isLoadingLocation, setIsLoadingLocation] = useState<boolean>(false);
+    const [isCaptionFocused, setIsCaptionFocused] = useState<boolean>(false);
 
     
     useEffect(() => {
@@ -325,22 +326,31 @@ const AddEntryScreen = ({ navigation }: any) => {
                                                 stylesAddEntryScreen.captionInput,
                                                 { 
                                                     color: isDarkMode ? "#ffffff" : "#000000",
-                                                    borderColor: isDarkMode ? 
+                                                    borderColor: isCaptionFocused ? 
                                                         "rgb(253, 253, 253)" : 
-                                                        "rgb(29, 29, 29)",
-                                                }
+                                                        (isDarkMode ? 
+                                                            "rgb(185, 185, 185)" : 
+                                                            "rgb(168, 168, 168)"),
+                                                },
+                                        
+                                                !isDarkMode && isCaptionFocused && {
+                                                    borderColor: "rgb(29, 29, 29)"
+                                                },
                                             ]}
                                             placeholder="Write a caption..."
-                                            placeholderTextColor={isDarkMode ? "#888888" : "#8e8e8e"}
+                                            placeholderTextColor={isDarkMode ? "rgb(185, 185, 185)" : "rgb(142, 142, 142)"}
                                             value={formikProps.values.caption}
                                             keyboardAppearance={isDarkMode ? "dark" : "light"}
                                             onChangeText={formikProps.handleChange('caption')}
-                                            onBlur={formikProps.handleBlur('caption')}
+                                            onBlur={(e) => {
+                                                formikProps.handleBlur('caption')(e);
+                                                setIsCaptionFocused(false);
+                                            }}
+                                            onFocus={() => setIsCaptionFocused(true)}
                                             returnKeyType="default"
                                             multiline={true}
                                             maxLength={MAX_CAPTION_LENGTH}
                                             inputAccessoryViewID="captionInputAccessory"
-                                            blurOnSubmit={false}
                                             enablesReturnKeyAutomatically={true}
                                         />
                                         {formikProps.values.caption.length > 0 && (
@@ -357,7 +367,7 @@ const AddEntryScreen = ({ navigation }: any) => {
                                         )}
                                         <Text style={[
                                             stylesAddEntryScreen.characterCount,
-                                            { color: isDarkMode ? "#888888" : "#8e8e8e" }
+                                            { color: isDarkMode ? "rgb(185, 185, 185)" : "rgb(142, 142, 142)" }
                                         ]}>
                                             {getActualCharacterCount(formikProps.values.caption)}/{MAX_CAPTION_LENGTH}
                                         </Text>
@@ -434,11 +444,11 @@ const AddEntryScreen = ({ navigation }: any) => {
                                     {location && (
                                         <View style={[stylesAddEntryScreen.locationDetails, {
                                             backgroundColor: isDarkMode ? 
-                                                "rgb(29, 29, 29)" : 
-                                                "rgb(253, 253, 253)", 
+                                                "rgb(60, 60, 60)" : 
+                                                "rgb(240, 240, 240)", 
                                             borderColor: isDarkMode ? 
-                                                "rgb(253, 253, 253)" :
-                                                "rgb(29, 29, 29)" 
+                                                "rgb(60, 60, 60)" :
+                                                "rgb(240, 240, 240)" 
                                         }]}>
                                             <Text style={[stylesAddEntryScreen.locationAddress, {
                                                 color: isDarkMode ? 

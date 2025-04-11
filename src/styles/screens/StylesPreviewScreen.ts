@@ -11,29 +11,17 @@ const stylesPreviewScreen = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      padding: 15,
+      padding: 16,
       zIndex: 1,
     },
-    previewUserInfo: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: 10,
-    },
-    userAvatar: {
-      width: 30,
-      height: 30,
-      borderRadius: 15,
-      marginRight: 10,
-    },
-    username: {
-      fontWeight: 'bold',
-    },
+
     backButton: {
-      padding: 5,
+      padding: 0,
     },
     headerTitle: {
       fontSize: 18,
       fontWeight: '600',
+
     },
     imageContainer: {
       width: '100%',
@@ -132,6 +120,16 @@ const stylesPreviewScreen = StyleSheet.create({
       fontSize: 16,
       fontWeight: '600',
     },
-  });
+    saveToGalleryButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 5,
+    },
+    saveToGalleryText: {
+      fontSize: 12,
+    },
+
+ });
 
 export default stylesPreviewScreen;

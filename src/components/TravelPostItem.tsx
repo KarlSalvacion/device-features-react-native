@@ -76,7 +76,10 @@ const TravelPostItem: React.FC<TravelPostItemProps> = ({
             <Image source={require("../assets/Karlflower.jpg")} style={stylesTravelPostItem.profilePicImage}/>
         </View>
         <View style={stylesTravelPostItem.headerTextContainer}>
-          <Text style={[stylesTravelPostItem.username, { color: isDarkMode ? "#ffffff" : "#262626" }]}>
+          <Text style={[stylesTravelPostItem.username, { 
+            color: isDarkMode ? 
+              "#ffffff" : 
+              "#262626" }]}>
             Karl Salvacion
           </Text>
         </View>
