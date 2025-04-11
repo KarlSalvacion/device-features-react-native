@@ -27,6 +27,9 @@ const HomeScreen = ({ navigation }: any) => {
     const loadFont = async () => {
       await Font.loadAsync({
         'Gothic-Expanded': require('../assets/fonts/SpecialGothicExpandedOne-Regular.ttf'),
+        'Instrument-Regular': require('../assets/fonts/InstrumentSerif-Regular.ttf'),
+        'Playfair-Black-Italic': require('../assets/fonts/PlayfairDisplay-BlackItalic.ttf'),
+        'Playfair-Black': require('../assets/fonts/PlayfairDisplay-Black.ttf'),
       });
       setFontsLoaded(true);
     };
@@ -183,7 +186,7 @@ const HomeScreen = ({ navigation }: any) => {
             "rgb(253, 253, 253)" : 
             "rgb(29, 29, 29)" }
           ]}>
-          DailyExposure
+          WeTravelogue
         </Text>
         <Pressable onPress={toggleTheme} style={({ pressed }) => [
           stylesHomeScreen.themeButton,

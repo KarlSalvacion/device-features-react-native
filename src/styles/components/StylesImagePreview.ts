@@ -19,7 +19,7 @@ const stylesImagePreview = StyleSheet.create({
         zIndex: 1,
         marginBottom: -20,
         alignSelf: "flex-end",
-        backgroundColor: 'rgb(113, 113, 113)',
+        backgroundColor: 'rgb(29, 29, 29)',
         borderRadius: 100,
         padding: 0,
     },
