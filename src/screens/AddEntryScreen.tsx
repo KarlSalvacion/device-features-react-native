@@ -108,30 +108,6 @@ const AddEntryScreen = ({ navigation }: any) => {
         return parts.join(', ');
     };
 
-    const getAddress = async () => {
-        if (!location) return;
-        
-        try {
-            const addressResponse = await Location.reverseGeocodeAsync({
-                latitude: location.latitude,
-                longitude: location.longitude,
-            });
-            
-            if (addressResponse && addressResponse.length > 0) {
-                setAddress(
-                    formatAddress(
-                        addressResponse[0].name ?? '',
-                        addressResponse[0].city ?? '',
-                        addressResponse[0].region ?? '',
-                        addressResponse[0].postalCode ?? ''
-                    )
-                );
-            }
-        } catch (error) {
-            console.error('Error getting address:', error);
-        }
-    };
-
     const getLocation = async () => {
         setIsLoadingLocation(true);
         try {
