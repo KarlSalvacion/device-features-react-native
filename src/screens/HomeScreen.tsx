@@ -22,6 +22,9 @@ const HomeScreen = ({ navigation }: any) => {
   const lastTapTimeRef = useRef<Record<string, number>>({});
   const heartIdCounter = useRef(0);
   const [fontsLoaded, setFontsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     const loadFont = async () => {
@@ -74,6 +77,7 @@ const HomeScreen = ({ navigation }: any) => {
   const loadEntries = async () => {
     const loadedEntries = await loadTravelEntries();
     setEntries(loadedEntries);
+    setIsLoading(false);
   };
 
   const scrollToTop = () => {
@@ -142,8 +146,6 @@ const HomeScreen = ({ navigation }: any) => {
   };
 
   const renderItem = ({ item }: { item: TravelEntry }) => {
-    const currentIndex = currentImageIndices[item.id] || 0;
-    
     return (
       <View style={{ position: 'relative' }}>
         <TravelPostItem
@@ -152,7 +154,7 @@ const HomeScreen = ({ navigation }: any) => {
           onToggleLike={handleToggleLike}
           onRemove={handleRemoveEntry}
           onImagePress={handleImagePress}
-          currentImageIndex={currentIndex}
+          currentImageIndex={currentImageIndex[item.id] || 0}
           onImageIndexChange={handleImageIndexChange}
         />
         {showHeart
@@ -223,7 +225,11 @@ const HomeScreen = ({ navigation }: any) => {
       ) : (
         <FlatList
           ref={flatListRef}
-          data={entries}
+          data={[...entries].sort((a, b) => {
+            const dateA = new Date(a.datePosted || '').getTime();
+            const dateB = new Date(b.datePosted || '').getTime();
+            return dateB - dateA; // Sort in descending order (newest first)
+          })}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={stylesHomeScreen.listContainer}
