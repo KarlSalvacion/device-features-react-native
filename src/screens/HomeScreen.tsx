@@ -31,6 +31,9 @@ const HomeScreen = ({ navigation }: any) => {
         'Playfair-Black-Italic': require('../assets/fonts/PlayfairDisplay-BlackItalic.ttf'),
         'Playfair-Black': require('../assets/fonts/PlayfairDisplay-Black.ttf'),
         'LobsterTwo-Bold-Italic': require('../assets/fonts/LobsterTwo-BoldItalic.ttf'),
+        'LobsterTwo-Regular': require('../assets/fonts/LobsterTwo-Regular.ttf'),
+        'DMSans-Regular': require('../assets/fonts/DMSans-Regular.ttf'),
+        'DMSans-Bold': require('../assets/fonts/DMSans-Bold.ttf'),
       });
       setFontsLoaded(true);
     };
@@ -182,13 +185,22 @@ const HomeScreen = ({ navigation }: any) => {
         ]}
         onPress={scrollToTop}
       >
-        <Text style={[stylesHomeScreen.title, { 
-          color: isDarkMode ? 
-            "rgb(253, 253, 253)" : 
-            "rgb(29, 29, 29)" }
-          ]}>
-          WeTravelogue
-        </Text>
+        <View style={stylesHomeScreen.appNameContainer}>
+          <Text style={[stylesHomeScreen.title, { 
+            color: isDarkMode ? 
+              "rgb(253, 253, 253)" : 
+              "rgb(31, 25, 4)" }
+            ]}>
+            Exploresure
+          </Text>
+          <Text style={[stylesHomeScreen.catchphraseText, { 
+            color: isDarkMode ? 
+              "rgb(223, 223, 223)" : 
+              "rgb(29, 29, 29)" }
+            ]}>
+            Exploring Through Exposure
+            </Text>
+        </View>
         <Pressable onPress={toggleTheme} style={({ pressed }) => [
           stylesHomeScreen.themeButton,
           pressed && { opacity: 0.7 }

@@ -11,13 +11,25 @@ const stylesHomeScreen = StyleSheet.create({
     padding: 16,
     height: 80,
   },
-
+  appNameContainer:{
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    gap: 0,
+  },
   title: {
-    fontSize: 26,
+    fontSize: 32,
     fontWeight: "bold",
     fontFamily: "LobsterTwo-Bold-Italic",
     lineHeight: 50,
     paddingRight: 10,
+  },
+
+  catchphraseText:{
+    fontSize: 12,
+    fontFamily: "DMSans-Regular",
+    marginTop: -7,
+    lineHeight: 20,
   },
   themeButton: {
     padding: 10,
