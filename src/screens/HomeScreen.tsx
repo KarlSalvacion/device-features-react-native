@@ -189,13 +189,13 @@ const HomeScreen = ({ navigation }: any) => {
           <Text style={[stylesHomeScreen.title, { 
             color: isDarkMode ? 
               "rgb(253, 253, 253)" : 
-              "rgb(29, 29, 29)" }
+              "rgb(31, 25, 4)" }
             ]}>
             Exploresure
           </Text>
           <Text style={[stylesHomeScreen.catchphraseText, { 
             color: isDarkMode ? 
-              "rgb(253, 253, 253)" : 
+              "rgb(223, 223, 223)" : 
               "rgb(29, 29, 29)" }
             ]}>
             Exploring Through Exposure
