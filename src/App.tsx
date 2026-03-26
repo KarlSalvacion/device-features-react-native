@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { CameraProvider } from './context/CameraContext';
@@ -28,9 +28,11 @@ const AppContent = () => {
 const App = () => {
   return (
     <ThemeProvider>
-      <CameraProvider>
-        <AppContent />
-      </CameraProvider>
+      <SafeAreaProvider>
+        <CameraProvider>
+          <AppContent />
+        </CameraProvider>
+      </SafeAreaProvider>
     </ThemeProvider>
   );
 };

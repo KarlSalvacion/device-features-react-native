@@ -224,7 +224,7 @@ const AddEntryScreen = ({ navigation }: any) => {
                         "rgb(253, 253, 253)" 
                     }]}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <>
+                        <View>
                             <View style={[stylesAddEntryScreen.headerContainer, { 
                                 backgroundColor: isDarkMode ? 
                                     "rgb(29, 29, 29)" : 
@@ -509,7 +509,7 @@ const AddEntryScreen = ({ navigation }: any) => {
                                     </Text>
                                 </Pressable>
                             </View>
-                        </>
+                        </View>
                     </TouchableWithoutFeedback>
                     {Platform.OS === 'ios' && (
                         <InputAccessoryView nativeID="captionInputAccessory">

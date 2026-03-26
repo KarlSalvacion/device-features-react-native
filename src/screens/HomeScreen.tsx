@@ -16,15 +16,10 @@ const HomeScreen = ({ navigation }: any) => {
   const [entries, setEntries] = useState<TravelEntry[]>([]);
   const flatListRef = useRef<FlatList>(null);
   const [currentImageIndices, setCurrentImageIndices] = useState<Record<string, number>>({});
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [refreshing, setRefreshing] = useState(false);
   const [showHeart, setShowHeart] = useState<{id: string, heartId: string, x: number, y: number}[]>([]);
   const lastTapTimeRef = useRef<Record<string, number>>({});
   const heartIdCounter = useRef(0);
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedEntryId, setSelectedEntryId] = useState<string | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     const loadFont = async () => {
@@ -38,7 +33,6 @@ const HomeScreen = ({ navigation }: any) => {
         'DMSans-Regular': require('../assets/fonts/DMSans-Regular.ttf'),
         'DMSans-Bold': require('../assets/fonts/DMSans-Bold.ttf'),
       });
-      setFontsLoaded(true);
     };
 
     loadFont();
@@ -49,6 +43,8 @@ const HomeScreen = ({ navigation }: any) => {
       Notifications.setNotificationHandler({
         handleNotification: async () => ({
           shouldShowAlert: true,
+          shouldShowBanner: true,
+          shouldShowList: true,
           shouldPlaySound: true,
           shouldSetBadge: false,
         }),
@@ -61,23 +57,16 @@ const HomeScreen = ({ navigation }: any) => {
     
     const unsubscribe = navigation.addListener('focus', () => {
       loadEntries();
-      setCurrentTime(new Date());
     });
-   
-    const timeInterval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 60000); 
     
     return () => {
       unsubscribe();
-      clearInterval(timeInterval);
     };
   }, [navigation]);
 
   const loadEntries = async () => {
     const loadedEntries = await loadTravelEntries();
     setEntries(loadedEntries);
-    setIsLoading(false);
   };
 
   const scrollToTop = () => {
@@ -88,7 +77,6 @@ const HomeScreen = ({ navigation }: any) => {
 
   const onRefresh = async () => {
     setRefreshing(true);
-    setCurrentTime(new Date());
     await loadEntries();
     await delay(500);
     setRefreshing(false);
@@ -98,7 +86,7 @@ const HomeScreen = ({ navigation }: any) => {
   const handleRemoveEntry = async (id: string) => {
     const updatedEntries = await removeEntry(entries, id);
     setEntries(updatedEntries);
-    
+       
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "Post Deleted",
@@ -154,7 +142,7 @@ const HomeScreen = ({ navigation }: any) => {
           onToggleLike={handleToggleLike}
           onRemove={handleRemoveEntry}
           onImagePress={handleImagePress}
-          currentImageIndex={currentImageIndex[item.id] || 0}
+          currentImageIndex={currentImageIndices[item.id] || 0}
           onImageIndexChange={handleImageIndexChange}
         />
         {showHeart
@@ -217,7 +205,7 @@ const HomeScreen = ({ navigation }: any) => {
 
       {entries.length === 0 ? (
         <View style={stylesHomeScreen.emptyContainer}>
-          <AntDesign name="frowno" style={stylesHomeScreen.emptyIcon}/>
+          <AntDesign name="frown" style={stylesHomeScreen.emptyIcon}/>
           <Text style={[stylesHomeScreen.emptyText, { color: isDarkMode ? "#8e8e8e" : "#8e8e8e" }]}>
             No posts yet. Capture your first travel moment!
           </Text>
@@ -228,7 +216,7 @@ const HomeScreen = ({ navigation }: any) => {
           data={[...entries].sort((a, b) => {
             const dateA = new Date(a.datePosted || '').getTime();
             const dateB = new Date(b.datePosted || '').getTime();
-            return dateB - dateA; // Sort in descending order (newest first)
+            return dateB - dateA;
           })}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}

@@ -26,10 +26,10 @@ const stylesHomeScreen = StyleSheet.create({
   },
 
   catchphraseText:{
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: "DMSans-Regular",
     marginTop: -7,
-    lineHeight: 20,
+    lineHeight: 22
   },
   themeButton: {
     padding: 10,
